@@ -1,11 +1,11 @@
 import React from 'react';
-import './App.css';
-import LandingPage from './component/LandingPage';
-
+import '../src/css/style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from "./component/Home";
 function App() {
   return (
     <>
-      <LandingPage/>
+      <Home/>
     </>
   );
 }
