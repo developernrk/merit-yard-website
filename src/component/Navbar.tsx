@@ -1,63 +1,75 @@
-import React from "react";
-
+import React, {useEffect, useState} from "react";
+import "../css/navbar.scss"
 const Navbar: React.FC = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isHeaderOnScroll, setIsHeaderOnScroll] = useState(false);
+    // Open/Close Navbar Menu on Click Burger
+    const handleBurgerClick = () => {
+        setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
+    };
+    const handleMenuLinkClick = () => {
+        setIsMenuOpen(false);
+    };
+    // Fixed Navbar Menu on Window Resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768 && isMenuOpen) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        // Add resize event listener on component mount
+        window.addEventListener('resize', handleResize);
+        return () => {
+            // Remove resize event listener on component unmount
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [isMenuOpen]);
     return (
         <>
-            <div className="header-top">
-                <div className="header">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-xl-2 col-lg-4 col-md-4 col-sm-3 col logo_section">
-                                <div className="full">
-                                    <div className="center-desk">
-                                        <div className="logo">
-                                            <a href="index.html">
-                                                <img src="images/merit_yard_logo_black.png" alt="#"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-10 col-lg-8 col-md-8 col-sm-9">
-                                <div className="header_information">
-                                    <div className="menu-area">
-                                        <div className="limit-box">
-                                            <nav className="main-menu ">
-                                                <ul className="menu-area-main">
-                                                    <li className="active">
-                                                        {" "}
-                                                        <a href="index.html">Home</a>{" "}
-                                                    </li>
-                                                    <li>
-                                                        {" "}
-                                                        <a href="#courses">My Courses </a>{" "}
-                                                    </li>
-                                                    <li>
-                                                        {" "}
-                                                        <a href="#about">About</a>{" "}
-                                                    </li>
-                                                    <li>
-                                                        {" "}
-                                                        <a href="#learn">My Profile</a>{" "}
-                                                    </li>
-                                                    <li>
-                                                        {" "}
-                                                        <a href="#important">Become an Instructor</a>{" "}
-                                                    </li>
-                                                    <li>
-                                                        {" "}
-                                                        <a href="#contact">Contact</a>{" "}
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <header className={isHeaderOnScroll ? 'header on-scroll' : 'header'} id="header">
+                <nav className="navbar container">
+                    <a href="#" className="brand">
+                        Merit Yard
+                    </a>
+                    <div className={`burger-menu ${isMenuOpen ? 'burger is-active' : 'burger'}`} onClick={handleBurgerClick} id="burger">
+                        <span className="burger-line" />
+                        <span className="burger-line" />
+                        <span className="burger-line" />
                     </div>
-                </div>
-            </div>
+                    <div className={`menu ${isMenuOpen ? 'is-active' : ''}`} id="menu">
+                        <ul className="menu-inner">
+                            <li className="menu-item">
+                                <a href="#" className="menu-link" onClick={handleMenuLinkClick}>
+                                    Home
+                                </a>
+                            </li>
+                            <li className="menu-item">
+                                <a href="#" className="menu-link" onClick={handleMenuLinkClick}>
+                                    Courses
+                                </a>
+                            </li>
+                            <li className="menu-item">
+                                <a href="#" className="menu-link" onClick={handleMenuLinkClick}>
+                                    Upcoming Classes
+                                </a>
+                            </li>
+                            <li className="menu-item">
+                                <a href="#" className="menu-link" onClick={handleMenuLinkClick}>
+                                    Blogs
+                                </a>
+                            </li>
+                            <li className="menu-item">
+                                <a href="#" className="menu-link" onClick={handleMenuLinkClick}>
+                                    Contact Us
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button className="menu-join-us btn btn-outline-primary">Login</button>
+                    <button className="menu-join-us btn btn-outline-secondary">Join Us</button>
+                </nav>
+            </header>
         </>
     )
 }
